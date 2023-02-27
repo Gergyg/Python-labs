@@ -1,25 +1,23 @@
 import utilities
 
 
-print("Hello world")
+if __name__ == "__main__":
 
-first = utilities.number_entering("Input first number : ")
-second = utilities.number_entering("Input second number : ")
+    print("Hello world")
 
-while True:  # Until operator is correct
-    operator = input("Input operator(+, -, *, /) : ")
+    first = utilities.number_entering("Input first number : ")
+    second = utilities.number_entering("Input second number : ")
+    operator = utilities.operator_entering("Input operator(+, -, *, /) : ")
+
     result = utilities.calculate(first, second, operator)
     print("Result:", result)
-    if result != "Incorrect operator":  # Checking if entered operator is invalid
-        break
 
+    lst = []
+    n = utilities.number_entering("Input the number of elements in list : ")
 
-lst = []
-n = utilities.number_entering("Input the number of elements in list : ")
+    for i in range(0, n):
+        ele = utilities.number_entering("Enter element #" + str(i+1) + " : ")
+        lst.append(ele)
 
-for i in range(0, n):
-    ele = utilities.number_entering("Enter element #" + str(i+1) + " : ")
-    lst.append(ele)
-
-resLst = utilities.get_even_nums_list(lst)
-print("List without odd numbers : ", resLst)
+    resLst = utilities.get_even_nums_list(lst)
+    print("List without odd numbers : ", resLst)
