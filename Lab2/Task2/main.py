@@ -29,6 +29,8 @@ if __name__ == "__main__":
                     container.add(el)
 
             case "remove":
+                if len(key) == 0:
+                    continue
                 container.remove(key[0])
             case "find":
                 for el in key:
@@ -36,6 +38,8 @@ if __name__ == "__main__":
             case "list":
                 container.list()
             case "grep":
+                if len(key) == 0:
+                    continue
                 container.grep(key[0])
             case "save":
                 container.save()
