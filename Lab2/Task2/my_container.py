@@ -18,12 +18,13 @@ class MyContainer:
             self.storage.remove(key)
 
     def find(self, key):
-        if key in self.storage:
-            print(f"{key}")
-            return True
-        else:
+        notfound = True
+        for el in key:
+            if el in self.storage:
+                print(f"{el}")
+                notfound = False
+        if notfound:
             print("No such elements")
-            return False
 
     def list(self):
         for key in self.storage:
@@ -48,7 +49,12 @@ class MyContainer:
             with open(f'./containers/{self.username}.json', 'r') as fp:
                 self.storage.update(set(json.load(fp)))
         else:
-            print(f"There is no such user! Created new container for user {self.username}")
+            name = input("Enter name of file: ")
+            if os.path.exists(f'./containers/{name}.json'):
+                with open(f'./containers/{name}.json', 'r') as fp:
+                    self.storage.update(set(json.load(fp)))
+            else:
+                print(f"There is no such file!")
 
     def switch(self, username):
         self.username = username

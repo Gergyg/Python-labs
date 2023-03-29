@@ -33,8 +33,7 @@ if __name__ == "__main__":
                     continue
                 container.remove(key[0])
             case "find":
-                for el in key:
-                    container.find(el)
+                container.find(tuple(key))
             case "list":
                 container.list()
             case "grep":
