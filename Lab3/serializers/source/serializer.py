@@ -1,4 +1,5 @@
 import inspect
+import types
 from types import CodeType, FunctionType
 from pydoc import locate
 
@@ -7,6 +8,7 @@ from serializers.source.constants import *
 def get_type(item):
     item_type = str(type(item))
     return item_type[8:len(item_type) - 2]
+
 def serialize(item):
     if isinstance(item, (int, float, complex, bool, str, type(None))):
         return serialize_single_var(item)
@@ -35,30 +37,40 @@ def serialize(item):
 def serialize_single_var(item):
     serialized_dict = {TYPE: get_type(item), VALUE: item}
     return serialized_dict
+
 def serialize_collection(item):
     serialized_dict = {TYPE: get_type(item), VALUE: [serialize(obj) for obj in item]}
     return serialized_dict
+
 def serialize_dict(item):
     serialized_dict = {TYPE: get_type(item), VALUE: [[serialize(key), serialize(item[key])] for key in item]}
     return serialized_dict
+
 def serialize_function(item):
     members = inspect.getmembers(item)
-    serialized_dict = {TYPE: get_type(item)}
-    value = {}
-    for obj in members:
-        if obj[0] in FUNCTION_ATTRIBUTES:
-            value[obj[0]] = (obj[1])
-        if obj[0] == CODE:
-            co_names = obj[1].__getattribute__(CO_NAMES)
-            globs = item.__getattribute__(GLOBALS)
-            value[GLOBALS] = {}
-            for obj2 in co_names:
-                if obj2 == item.__name__:
-                    value[GLOBALS][obj2] = item.__name__
-                elif obj2 in globs and not inspect.ismodule(obj2) and obj2 not in __builtins__:
-                    value[GLOBALS][obj2] = globs[obj2]
-    serialized_dict[VALUE] = serialize(value)
-    return serialized_dict
+    serialized = dict()
+    serialized['type'] = str(type(item))[8:-2]
+    value = dict()
+    for tmp in members:
+        if tmp[0] in ['__code__', '__name__', '__defaults__']:
+            value[tmp[0]] = (tmp[1])
+        if tmp[0] == '__code__':
+            co_names = tmp[1].__getattribute__('co_names')
+            globs = item.__getattribute__('__globals__')
+            value['__globals__'] = dict()
+
+            for tmp_co_names in co_names:
+                if tmp_co_names == item.__name__:
+                    value['__globals__'][tmp_co_names] = item.__name__
+                elif not inspect.ismodule(tmp_co_names) \
+                        and tmp_co_names in globs:
+                    # and tmp_co_names not in __builtins__:
+                    value['__globals__'][tmp_co_names] = globs[tmp_co_names]
+
+    serialized['value'] = serialize(value)
+
+    return serialized
+
 def serialize_class(item):
     serialized_dict = {TYPE: CLASS}
     value = {NAME: item.__name__}
@@ -68,20 +80,24 @@ def serialize_class(item):
             value[obj[0]] = obj[1]
     serialized_dict[VALUE] = serialize(value)
     return serialized_dict
+
 def serialize_code(item):
     if get_type(item) is None:
         return None
     members = inspect.getmembers(item)
     serialized_dict = {TYPE: get_type(item), VALUE: serialize({obj[0]: obj[1] for obj in members if not callable(obj[1])})}
     return serialized_dict
+
 def serialize_module(item):
     temp_item = str(item)
     serialized_dict = {TYPE: get_type(item), VALUE: temp_item[9:len(temp_item) - 13]}
     return serialized_dict
+
 def serialize_instance(item):
     members = inspect.getmembers(item)
     serialized_dict = {TYPE: get_type(item), VALUE: serialize({obj[0]: obj[1] for obj in members if not callable(obj[1])})}
     return serialized_dict
+
 def serialize_object(item):
     serialized_dict = {TYPE: OBJECT, VALUE: serialize({OBJECT_TYPE: type(item), FIELDS: item.__dict__})}
 
@@ -130,11 +146,54 @@ def deserialize_dict(item):
 
 
 def deserialize_function(item):
-    pass
+    res_dict = deserialize(item['value'])
+
+    res_dict['code'] = deserialize_code(item)
+    res_dict.pop('__code__')
+
+    res_dict['globals'] = res_dict['__globals__']
+    res_dict.pop('__globals__')
+
+    res_dict['name'] = res_dict['__name__']
+    res_dict.pop('__name__')
+
+    res_dict['argdefs'] = res_dict['__defaults__']
+    res_dict.pop('__defaults__')
+
+    res = types.FunctionType(**res_dict)
+    if res.__name__ in res.__getattribute__('__globals__'):
+        res.__getattribute__('__globals__')[res.__name__] = res
+
+    return res
+
+
+def deserialize_code(item):
+    items = item['value']['value']
+
+    for tmp in items:
+        if tmp[0]['value'] == '__code__':
+            args = deserialize(tmp[1]['value'])
+            code_dict = dict()
+            for arg in args:
+                arg_val = args[arg]
+                if arg != '__doc__':
+                    code_dict[arg] = arg_val
+            code_list = [0] * 16
+
+            for name in code_dict:
+                if name == 'co_lnotab':
+                    continue
+                code_list[CODE_ARGS.index(name)] = code_dict[name]
+
+            return types.CodeType(*code_list)
 
 
 def deserialize_class(item):
-    pass
+    class_dict = deserialize(item[VALUE])
+    name = class_dict[NAME]
+    del class_dict[NAME]
+
+    return type(name, (object,), class_dict)
 
 
 def deserialize_module(item):
@@ -142,4 +201,10 @@ def deserialize_module(item):
 
 
 def deserialize_object(item):
-    pass
+    value = deserialize(item[VALUE])
+    result = value[OBJECT_TYPE](**value[FIELDS])
+
+    for key, value in value[FIELDS].items():
+        result.key = value
+
+    return result
