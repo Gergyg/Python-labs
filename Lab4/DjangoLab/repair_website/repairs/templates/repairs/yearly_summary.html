@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Yearly Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Total Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for year, total_cost in yearly_summary %}
+      <tr>
+        <td>{{ year }}</td>
+        <td>{{ total_cost }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

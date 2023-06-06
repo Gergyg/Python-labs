@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Список ремонтов</h1>
+  
+  {% if repairs %}
+    <ul>
+      {% for repair in repairs %}
+        <li>{{ repair.customer }} - {{ repair.service }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Нет доступных ремонтов.</p>
+  {% endif %}
+  
+{% endblock %}

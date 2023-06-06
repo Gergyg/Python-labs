@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sale Detail</title>
+</head>
+<body>
+    <h1>Sale Detail</h1>
+    <h2>{{ sale.customer }}</h2>
+    <p>Date: {{ sale.date }}</p>
+    <p>Total: {{ sale.total }}</p>
+    <p>Items:</p>
+    <ul>
+        {% for item in sale.items.all %}
+        <li>{{ item.product }} - {{ item.quantity }}</li>
+        {% empty %}
+        <li>No items available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

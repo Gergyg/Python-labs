@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Repair Objects</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for repair_object in repair_objects %}
+        <tr>
+          <td>{{ repair_object.id }}</td>
+          <td>{{ repair_object.name }}</td>
+          <td>{{ repair_object.description }}</td>
+          <td>
+            <a href="{% url 'repair_object_detail' repair_object.id %}">Detail</a>
+            <a href="{% url 'repair_object_update' repair_object.id %}">Update</a>
+            <a href="{% url 'repair_object_delete' repair_object.id %}">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'repair_object_create' %}">Create New Repair Object</a>
+{% endblock %}

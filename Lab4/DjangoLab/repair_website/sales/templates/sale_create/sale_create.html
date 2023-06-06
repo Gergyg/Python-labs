@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Sale</title>
+</head>
+<body>
+    <h1>Create Sale</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="customer">Customer:</label>
+        <select name="customer" id="customer">
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date">
+        <br>
+        <label for="total">Total:</label>
+        <input type="number" name="total" id="total">
+        <br>
+        <h2>Items:</h2>
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+            </tr>
+            <tr>
+                <td><input type="text" name="product1"></td>
+                <td><input type="number" name="quantity1"></td>
+            </tr>
+            <!-- Add more rows for additional items -->
+        </table>
+        <br>
+        <input type="submit" value="Create">
+    </form>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Master Details</h1>
+  <table>
+    <tr>
+      <th>Name:</th>
+      <td>{{ master.name }}</td>
+    </tr>
+    <tr>
+      <th>Specialization:</th>
+      <td>{{ master.specialization }}</td>
+    </tr>
+    <tr>
+      <th>Experience:</th>
+      <td>{{ master.experience }}</td>
+    </tr>
+    <tr>
+      <th>Phone Number:</th>
+      <td>{{ master.phone_number }}</td>
+    </tr>
+  </table>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Создание новой специализации мастера</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать</button>
+  </form>
+
+  <a href="{% url 'specialization_list' %}">Вернуться к списку специализаций</a>
+{% endblock %}

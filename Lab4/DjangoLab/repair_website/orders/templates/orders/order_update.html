@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Order</title>
+</head>
+<body>
+    <h1>Update Order</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="customer">Customer:</label>
+        <select name="customer" id="customer">
+            {% for customer in customers %}
+                <option value="{{ customer.id }}" {% if customer.id == order.customer.id %}selected{% endif %}>{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="service">Service:</label>
+        <select name="service" id="service">
+            {% for service in services %}
+                <option value="{{ service.id }}" {% if service.id == order.service.id %}selected{% endif %}>{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" value="{{ order.quantity }}">
+        <br>
+        <label for="total_price">Total Price:</label>
+        <input type="number" name="total_price" id="total_price" value="{{ order.total_price }}">
+        <br>
+        <input type="submit" value="Update Order">
+    </form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Sale</title>
+</head>
+<body>
+    <h1>Delete Sale</h1>
+    <p>Are you sure you want to delete the following sale?</p>
+    <p><strong>Customer:</strong> {{ sale.customer.name }}</p>
+    <p><strong>Date:</strong> {{ sale.date }}</p>
+    <p><strong>Total:</strong> {{ sale.total }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>

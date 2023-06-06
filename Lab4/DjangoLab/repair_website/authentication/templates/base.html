@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <!-- Здесь можно добавить мета-теги, стили CSS, скрипты JavaScript и другие общие ресурсы -->
+</head>
+<body>
+    <!-- Навигационное меню -->
+    <nav>
+        <ul>
+            <li><a href="/login">login</a></li>
+            <li><a href="/register">register</a></li>
+            <li><a href="/logout">logout</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Контент страницы -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <!-- Подвал -->
+    <footer>
+        <!-- Здесь можно добавить информацию о копирайте, ссылки на социальные сети и т.д. -->
+    </footer>
+</body>
+</html>

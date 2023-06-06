@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Delete Master</h1>
+  <p>Are you sure you want to delete the master "{{ master.name }}"?</p>
+  <form method="POST" action="{% url 'master_delete' master.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+    <a href="{% url 'master_detail' master.id %}">Cancel</a>
+  </form>
+{% endblock %}

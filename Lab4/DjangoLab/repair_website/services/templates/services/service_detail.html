@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Detail</title>
+</head>
+<body>
+    <h1>Service Detail</h1>
+    
+    <h2>{{ service.name }}</h2>
+    <p><strong>Service Type:</strong> {{ service.service_type.name }}</p>
+    <p><strong>Price:</strong> {{ service.price }}</p>
+    <p><strong>Description:</strong> {{ service.description }}</p>
+
+    <a href="{% url 'services:service_update' pk=service.pk %}">Edit</a>
+    <a href="{% url 'services:service_delete' pk=service.pk %}">Delete</a>
+</body>
+</html>

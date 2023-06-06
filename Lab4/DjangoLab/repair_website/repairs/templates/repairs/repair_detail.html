@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Информация о ремонте</h2>
+  <table>
+    <tr>
+      <th>Название</th>
+      <td>{{ repair.name }}</td>
+    </tr>
+    <tr>
+      <th>Описание</th>
+      <td>{{ repair.description }}</td>
+    </tr>
+    <tr>
+      <th>Дата создания</th>
+      <td>{{ repair.created_at }}</td>
+    </tr>
+    <tr>
+      <th>Клиент</th>
+      <td>{{ repair.customer }}</td>
+    </tr>
+    <tr>
+      <th>Запчасти</th>
+      <td>
+        <ul>
+          {% for part in repair.parts.all %}
+            <li>{{ part.name }} - {{ part.price }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th>Стоимость работ</th>
+      <td>{{ repair.labour_cost }}</td>
+    </tr>
+    <tr>
+      <th>Общая стоимость</th>
+      <td>{{ repair.get_total_cost }}</td>
+    </tr>
+  </table>
+  <br>
+  <a href="{% url 'repair_update' repair.id %}">Редактировать</a>
+  <a href="{% url 'repair_delete' repair.id %}">Удалить</a>
+{% endblock %}

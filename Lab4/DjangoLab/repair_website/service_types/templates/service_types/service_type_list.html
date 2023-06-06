@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Service Types</h1>
+  <ul>
+    {% for service_type in service_types %}
+      <li>{{ service_type.name }}</li>
+    {% empty %}
+      <li>No service types available</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

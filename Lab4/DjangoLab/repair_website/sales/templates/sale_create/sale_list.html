@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sale List</title>
+</head>
+<body>
+    <h1>Sale List</h1>
+    <ul>
+        {% for sale in sales %}
+        <li>
+            <a href="{% url 'sale_detail' sale.id %}">{{ sale.customer }}</a>
+        </li>
+        {% empty %}
+        <li>No sales available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

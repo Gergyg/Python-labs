@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Order</title>
+</head>
+<body>
+    <h1>Delete Order</h1>
+    <p>Are you sure you want to delete the following order?</p>
+    <p><strong>Customer:</strong> {{ order.customer }}</p>
+    <p><strong>Service:</strong> {{ order.service }}</p>
+    <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+    <p><strong>Total Price:</strong> {{ order.total_price }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete Order">
+    </form>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Список специализаций мастеров</h1>
+
+  <ul>
+    {% for specialization in specializations %}
+      <li><a href="{% url 'specialization_detail' specialization.id %}">{{ specialization.name }}</a></li>
+    {% empty %}
+      <li>Нет доступных специализаций.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

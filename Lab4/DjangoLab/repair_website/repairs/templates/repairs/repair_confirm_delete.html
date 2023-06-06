@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Подтверждение удаления ремонта</h1>
+
+  <p>Вы уверены, что хотите удалить эту запись о ремонте?</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'repair_detail' repair.id %}">Отмена</a>
+  </form>
+
+{% endblock %}

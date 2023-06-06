@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Детали категории ремонта</h1>
+
+  <h2>{{ category.name }}</h2>
+  <p>Описание: {{ category.description }}</p>
+  <p>Дата создания: {{ category.created_at }}</p>
+
+  <a href="{% url 'category_update' category.id %}">Редактировать</a>
+  <a href="{% url 'category_delete' category.id %}">Удалить</a>
+{% endblock %}

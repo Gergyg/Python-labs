@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service List</title>
+</head>
+<body>
+    <h1>Service List</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Service Type</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.name }}</td>
+                <td>{{ service.service_type.name }}</td>
+                <td>{{ service.price }}</td>
+                <td>
+                    <a href="{% url 'services:service_detail' pk=service.pk %}">View</a>
+                    <a href="{% url 'services:service_update' pk=service.pk %}">Edit</a>
+                    <a href="{% url 'services:service_delete' pk=service.pk %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'services:service_create' %}">Create New Service</a>
+</body>
+</html>
